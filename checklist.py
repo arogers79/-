@@ -12,7 +12,7 @@ class TaskFrame(tk.Frame):
         self.listbox.pack(pady=10, fill=tk.BOTH, expand=True)
 
         # Список для выполненных задач
-        self.completed_label = tk.Label(self, text="Выполненные задачи", font=("Arial", 12))
+        self.completed_label = tk.Label(self, text="Эти чечики теперь мои \u2193", font=("Arial", 12))
         self.completed_label.pack(pady=5)
 
         self.completed_listbox = tk.Listbox(self)
@@ -37,10 +37,17 @@ class TaskFrame(tk.Frame):
             self.save_tasks()
 
     def remove_task(self):
+        # Проверяем, есть ли выбранная задача в основном списке
         selected_task_index = self.listbox.curselection()
         if selected_task_index:
             self.listbox.delete(selected_task_index)
             self.save_tasks()
+        else:
+            # Проверяем, есть ли выбранная задача в списке выполненных задач
+            selected_completed_task_index = self.completed_listbox.curselection()
+            if selected_completed_task_index:
+                self.completed_listbox.delete(selected_completed_task_index)
+                self.save_tasks()
 
     def mark_completed(self):
         selected_task_index = self.listbox.curselection()
@@ -94,8 +101,8 @@ class MainApp:
         self.frame2 = TaskFrame(self.root, "ХСР")
         self.frame2.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=20, pady=20)
 
-        # Кнопка "Выйти"
-        self.exit_button = tk.Button(self.root, text="Выйти", command=self.root.quit)
+        # Кнопка "я устал, я ухожу"
+        self.exit_button = tk.Button(self.root, text="я устал, я ухожу", command=self.root.quit)
         self.exit_button.pack(side=tk.RIGHT, padx=20, pady=20)
 
 if __name__ == "__main__":
